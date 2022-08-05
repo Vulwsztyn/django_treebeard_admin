@@ -14,9 +14,7 @@ from treebeard.admin import TreeAdmin
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
-        print()
         qs: QuerySet = super(admin.ModelAdmin, self).get_queryset(request)
-        print(qs.query)
         return qs \
             .annotate(parent=RawSQL("""
                    select id from tree_category tc where tc.depth="tree_category"."depth"-1 and "tree_category"."path" like tc.path || '%%'
